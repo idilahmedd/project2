@@ -11,9 +11,9 @@ const isLoggedIn = require('./middleware/isLoggedIn')
 const helmet = require('helmet');
 //this is only used by the session store
 const db = require('./models');
-
+const moment = require('moment');
 const app = express();
-
+const methodOverride = require('method-override');
 //this line makes the session use sequelize to write session data to a postgres table
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 
@@ -65,6 +65,10 @@ app.get('/profile', isLoggedIn, function(req, res) {
 });
 
 app.use('/auth', require('./controllers/auth'));
+app.use('/kids', require('./controllers/kids'));
+app.use('/events', require('./controllers/events'));
+app.use('/notes', require('./controllers/notes'));
+
 
 var server = app.listen(process.env.PORT || 3000);
 

@@ -1,0 +1,37 @@
+<h1><%= event.type%><small> for <%= event.kid.name %></small></h1>
+
+
+<p><%= event.content%></p>
+<a href="/events/<%= event.id%>/edit">EDIT THIS EVENT</a>
+
+<form method= "POST" action= "/events/<%= event.id %>/?_method=DELETE">
+<input type="Submit" value="DELETE">
+</form>
+
+<hr />
+<h2>Notes associated with this event:</h2>
+
+<p>
+<%event.notes.forEach(function(note){ %>
+    <p><%= note.content %> |</p>
+<% }) %>
+</p>
+
+
+
+<hr />
+<h2>Create a new Note for this event!</h2>
+
+<form action="/events/<%=event.id%>/notes" method="POST">
+<input type="text" name="content" placeholder="notes">
+<input type="hidden" name="eventId" value="<%= event.id%>">
+<input type="submit" value="Post note">
+</form>
+
+<hr />
+
+
+
+
+
+<a href="/">&larr; Back to profile</a>

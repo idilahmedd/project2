@@ -21,7 +21,7 @@ router.post('/signup', function(req, res) {
     if (created) {
       console.log("user was created, not found");
       passport.authenticate('local', {
-        successRedirect: '/',
+        successRedirect: '/profile',
         successFlash: 'Account created and logged in!'
       })(req,res);
     }else {
@@ -41,7 +41,7 @@ router.get('/login', function(req, res) {
 
 //
 router.post('/login', passport.authenticate('local', {
-  successRedirect: '/',
+  successRedirect: '/profile',
   failureRedirect: '/auth/login',
   successFlash: "You have logged in!",
   failureFlash: 'Invalid username and/or password!'

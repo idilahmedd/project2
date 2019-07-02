@@ -1,0 +1,11 @@
+<h1>Your notes:</h1>
+
+<% notes.forEach(function(note) { %>
+  <div class="note">
+  <h2><a href="/notes/<%= note.id %>"><%= note.time %></a></h2>
+  <h2><a href="/events/<%= note.eventId %>"><%= note.content %></a></h2>
+  </div>
+  <% }); %>
+
+  <hr />
+  <a href="/profile">&larr; Back To Profile</a>

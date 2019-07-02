@@ -1,0 +1,26 @@
+<h2>Update your event info</h2>
+
+<form method="POST" action="/events/<%= event.id %>/?_method=PUT">
+  <label for="eventType">Type</label>
+  <input type="text" name="eventType" value="<%= event.type %>"/>
+
+<label for="eventLocation">Location</label>
+  <input type="text" name="eventLocation" value="<%= event.location %>"/>
+
+<label for="eventTime">Time</label>
+  <input type="text" name="eventTime" value="<%= event.time %>"/>
+
+<label for="eventWith">With</label>
+  <input type="text" name="eventWith" value="<%= event.with %>"/>
+
+<label for="eventReason">Reason</label>
+  <input type="text" name="eventReason" value="<%= event.reason %>"/>
+
+<label for="eventKidId">Kid: </label>
+  <input type="text" name="eventKidId" value="<%= event.kidId %>"/>
+
+  <input type="submit" value="UPDATE MY DINO">
+</form>
+
+
+ 

@@ -7,6 +7,9 @@ module.exports = (sequelize, DataTypes) => {
   }, {});
   kid.associate = function(models) {
     // associations can be defined here
+    models.kid.belongsTo(models.profile);
+    models.kid.hasMany(models.event); 
+
   };
   return kid;
 };

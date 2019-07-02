@@ -1,0 +1,15 @@
+<h1>Create a New event</h1>
+
+
+<form action="/events" method="POST">
+<input type="text" name="type" required placeholder="Type of event...."><br />
+<select name="kidId" required >
+    <% kids.forEach(function(kid) {%>
+    <option value="<%= kid.id %>"><%= kid.name %></option>
+    <%});%>
+</select><br />
+<input type="text" name="content"><br />
+<input type="submit" value="POST">
+</form>
+  
+  <a href="/profile">&larr; Back to profile</a>

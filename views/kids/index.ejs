@@ -1,0 +1,11 @@
+<h1>Your child/ren:</h1>
+
+<% kids.forEach(function(kid) { %>
+  <div class="kid">
+  <h2><a href="/kids/<%= kid.id %>"><%= kid.name %></a></h2>
+  <h2><a href="/kids/<%= kid.id %>"><%= kid.birthdate %></a></h2>
+  </div>
+  <% }); %>
+
+  <hr />
+  <a href="/profile">&larr; Back To Profile</a>
