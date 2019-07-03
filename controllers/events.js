@@ -1,6 +1,7 @@
 const express = require('express');
 const db = require('../models');
 const router = express.Router();
+const axios = require('axios');
 
 
 //GET /event- returns user's events
@@ -11,23 +12,40 @@ router.get('/', function(req, res) {
     });
 });
 
-//GET /events/new- sends a form to add new event
-router.get('/', function(req, res) {
+//POST /events - receives form data for a new event
+router.get('/results', function(req, res) {
     // Get fields for searching from req.body
     // Build the URL with those search terms
+    var multiple = false;
+    var searchTerms = '';
+    if (req.query.location) {
+        searchTerms = searchTerms + "location=" + req.query.location;
+        multiple = true;
+    }
+    // res.send(searchTerms);
+    // if (req.query.name && multiple) {
+    //     searchTerms = searchTerms + '&name=' + req.query.name;
+    // } else {
+    //     searchTerms = searchTerms + 'name=' + req.query.name;
+    // }
     // Use that URL in th axios call
-
-    axios.get('https://api.betterdoctor.com/2016-03-01/doctors?location=wa-seattle&skip=0&limit=10&' + '&apikey=' + process.env.API_KEY)
-      .then(function(response) {
-        var practices = response.data;
-        console.log("🐳🐳🐳 response from API: " + practices.data[1].name);
-        //res.json(practices)
-        // Add mapbox stuff to the page you are rendering
-        res.render('events/new', {events: practices.data});
-    }).catch( function(err) {
-      res.json(err)
-    });
-  });
+    // TODO maybe user_key instead of apikey
+    var url = `https://api.betterdoctor.com/2016-03-01/doctors?${searchTerms}&skip=0&limit=10&user_key=${process.env.API_KEY}`;
+    console.log(url);
+    db.kid.findAll().then(function(kids){
+        axios.get(url)
+          .then(function(response) {
+            var practices = response.data;
+            console.log("🐳🐳🐳 response from API: " + practices);
+            //res.json(practices)
+            // Add mapbox stuff to the page you are rendering
+            // res.json(practices.data)
+            res.render('events/results', {events: practices.data, kids});
+        }).catch(function(err) {
+          res.json(err)
+        });
+    })
+});
 
 //GET /events/new- sends a form to add new event
 router.get('/new', function(req, res,) {
@@ -39,8 +57,9 @@ router.get('/new', function(req, res,) {
             
         //});
 });
+
 //GET/ events/:id/EDIT - serve up our EDIT event form
-router.get('/events/:id/edit', function(req, res){
+router.get('/:id/edit', function(req, res){
     db.event.findByPk(parseInt(req.params.id)).then(function(event) {
         res.render('events/edit', {event});
     });
@@ -91,7 +110,7 @@ router.post('/:id/notes', function(req,res) {
 
 
 //DELETE
-router.delete('/events/:id', function(req,res) {
+router.delete('/:id', function(req,res) {
     db.event.destroy({
         where: {id: parseInt(req.params.id)}
     }).then(function(data) {
@@ -99,7 +118,7 @@ router.delete('/events/:id', function(req,res) {
     });
 })
 //PUT 
-router.put('/events/:id', function(req, res) {
+router.put('/:id', function(req, res) {
     db.event.update({
         type:req.body.eventType,
         location: req.body.eventLocation,

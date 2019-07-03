@@ -1,3 +1,7 @@
 <h1><%= kid.name%><small> 
 <h1><%= bDayString %><small> 
 <hr />
+<a href="/kids/<%= kids.id%>/edit">UPDATE CHILD</a>
+<form method= "POST" action= "/kids/<%= kid.id %>/?_method=DELETE">
+<input type="Submit" value="DELETE">
+</form>

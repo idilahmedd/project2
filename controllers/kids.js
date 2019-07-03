@@ -4,9 +4,20 @@ const router = express.Router();
 
 //GET /kid- returns user's kids
 router.get('/', function(req, res) {
-    db.kid.findAll().then(function(kids) {
-        res.render('kids/index', {kids});
-    });
+    db.profile.findOne({
+        where: {
+            userId: req.user.id
+        }
+    }).then(function(profile) {
+        db.kid.findAll({
+            where: {profileId: profile.id}
+        }).then(function(kids) {
+            
+            var bDay = new Date(kids[0].birthdate);
+            var bDayString = `${bDay.getMonth()}/${bDay.getDate()}/${bDay.getFullYear()}`;
+            res.render('kids/index', {kids, bDayString});
+        });
+    })
 });
 
 

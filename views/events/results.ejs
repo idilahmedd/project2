@@ -1,0 +1,12 @@
+<% events.forEach( function(event) {%>
+  <div class="drList">
+    <% event.practices.forEach( function(practice) { %>
+      <h3><%= practice.name %></h3>
+      <p><%= practice.visit_address.street %></p>
+      <p><%= practice.visit_address.city %></p>
+      <p><%= practice.visit_address.state %></p>
+      <p><%= practice.visit_address.zip %></p>
+      <input type="Submit" value="Choose this Dr.">
+    <% }) %>
+  </div>
+  <%}) %>

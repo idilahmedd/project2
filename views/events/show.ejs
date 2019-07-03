@@ -1,12 +1,13 @@
 <h1><%= event.type%><small> for <%= event.kid.name %></small></h1>
 
 
-<p><%= event.content%></p>
+<p><%= event.location%></p>
 <a href="/events/<%= event.id%>/edit">EDIT THIS EVENT</a>
 
 <form method= "POST" action= "/events/<%= event.id %>/?_method=DELETE">
 <input type="Submit" value="DELETE">
 </form>
+
 
 <hr />
 <h2>Notes associated with this event:</h2>
