@@ -3,12 +3,12 @@
 <% kids.forEach(function(kid) { %>
   <div class="kid">
   <h2><a href="/kids/<%= kid.id %>"><%= kid.name %></a></h2>
-  <p><%= bDayString %></p>
   
   </div>
   <% }); %>
 
-
+<hr />
+<a href="/kids/new">Add a Child </a>
 
   <hr />
   <a href="/profile">&larr; Back To Profile</a>

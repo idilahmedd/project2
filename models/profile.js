@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
   profile.associate = function(models) {
     // associations can be defined here
     models.profile.belongsTo(models.user);
-    models.profile.hasMany(models.kid); 
+    
     // models.profile.hasMany(models.event);
     
     

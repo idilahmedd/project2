@@ -3,11 +3,16 @@
 <% events.forEach(function(event) { %>
   <div class="well">
   <h2><a href="/events/<%= event.id %>"><%= event.type %></a></h2>
-  <h2><a href="/events/<%= event.id %>"><%= event.location %></a></h2>
-  <h2><a href="/events/<%= event.id %>"><%= event.time %></a></h2>
-  <h2><a href="/events/<%= event.id %>"><%= event.with %></a></h2>
-  <h2><a href="/events/<%= event.id %>"><%= event.reason %></a></h2>
+  <p>Where: <%= event.location %></p>
+  <p>Time: <%= event.time %></p>
+  <p>With:<%= event.with %></p>
+  <p>Reason:<%= event.reason %></p>
+  <a href="/events/<%= event.id%>/edit">UPDATE EVENT</a>
+  <form method= "POST" action= "/events/<%= event.id %>/?_method=DELETE">
+<input type="Submit" value="DELETE">
+</form>
   </div>
+
   <% }); %>
 
   <hr />

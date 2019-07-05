@@ -10,6 +10,23 @@ router.get('/', function(req, res) {
     });
 });
 
+//GET /kids/new- sends a form to add new kid- form use res.render
+router.get('/new', function(req, res) {
+    res.render('notes/new');
+});
+//POST /notes - create a new note in event page
+router.post('/', function(req,res){
+    db.note.create({
+        time: req.body.time,
+        content: req.body.content,
+        kidId: req.body.kidId,
+        eventId: req.body.eventId
+    }).then(function(note){
+        res.redirect('/notes/new');
+    }); 
+    
+});
+
 //GET /notes/:id - returns the selected note with attached event and kid
 router.get('/notes/:id', function(req,res) {
     db.note.findOne({
@@ -19,18 +36,13 @@ router.get('/notes/:id', function(req,res) {
         res.render('events/show', {note})
     });
 });
-//POST /notes - create a new note in event page
-router.post('/new', function(req,res){
-    db.note.create({
-        time: req.body.time,
-        content: req.body.content,
-        kidId: req.body.kidId,
-        eventId: req.body.eventId
-    }).then(function(note){
-        res.redirect('/events/' + req.body.eventId);
-    }); 
-    
-});
 
-
+//DELETE
+router.delete('/:id', function(req,res) {
+    db.note.destroy({
+        where: {id: parseInt(req.params.id)}
+    }).then(function(data) {
+        res.redirect('/notes');
+    });
+})
 module.exports = router;

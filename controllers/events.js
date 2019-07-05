@@ -16,18 +16,20 @@ router.get('/', function(req, res) {
 router.get('/results', function(req, res) {
     // Get fields for searching from req.body
     // Build the URL with those search terms
-    var multiple = false;
+    // var multiple = false;
     var searchTerms = '';
     if (req.query.location) {
+
         searchTerms = searchTerms + "location=" + req.query.location;
-        multiple = true;
+        // multiple = true;
     }
     // res.send(searchTerms);
-    // if (req.query.name && multiple) {
-    //     searchTerms = searchTerms + '&name=' + req.query.name;
-    // } else {
-    //     searchTerms = searchTerms + 'name=' + req.query.name;
-    // }
+    if (req.query.name) {
+        searchTerms = searchTerms + '&name=' + req.query.name;
+    }
+    if (req.query.specialty) {
+        searchTerms = searchTerms + '&specialty_uid=' + req.query.specialty;
+    }
     // Use that URL in th axios call
     // TODO maybe user_key instead of apikey
     var url = `https://api.betterdoctor.com/2016-03-01/doctors?${searchTerms}&skip=0&limit=10&user_key=${process.env.API_KEY}`;
@@ -36,11 +38,15 @@ router.get('/results', function(req, res) {
         axios.get(url)
           .then(function(response) {
             var practices = response.data;
-            console.log("🐳🐳🐳 response from API: " + practices);
+        
+            console.log("🐳🐳🐳 response from API: ");
             //res.json(practices)
             // Add mapbox stuff to the page you are rendering
             // res.json(practices.data)
+            console.log();
+            
             res.render('events/results', {events: practices.data, kids});
+
         }).catch(function(err) {
           res.json(err)
         });
@@ -88,7 +94,7 @@ router.post('/', function(req,res){
         reason: req.body.reason,
         kidId: req.body.kidId,
     }).then(function(event){
-        res.redirect('/');
+        res.redirect('/events');
     });
     
 });

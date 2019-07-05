@@ -4,18 +4,16 @@ const router = express.Router();
 
 //GET /kid- returns user's kids
 router.get('/', function(req, res) {
-    db.profile.findOne({
+    db.user.findOne({
         where: {
-            userId: req.user.id
+            id: req.user.id
         }
-    }).then(function(profile) {
+    }).then(function(user) {
+        console.log(user);
         db.kid.findAll({
-            where: {profileId: profile.id}
+            where: {userId: user.id}
         }).then(function(kids) {
-            
-            var bDay = new Date(kids[0].birthdate);
-            var bDayString = `${bDay.getMonth()}/${bDay.getDate()}/${bDay.getFullYear()}`;
-            res.render('kids/index', {kids, bDayString});
+            res.render('kids/index', {kids});
         });
     })
 });
@@ -30,12 +28,19 @@ router.get('/new', function(req, res) {
 router.post('/', function(req, res) {
     db.kid.create({
         name:req.body.name,
-        birthdate: req.body.birthdate
+        birthdate: req.body.birthdate,
+        userId: req.user.id
     }).then(function(data) {
         res.redirect('/kids');
     });
 });
 
+//GET/ kids/:id/EDIT - serve up our EDIT kid form
+router.get('/:id/edit', function(req, res){
+    db.kid.findByPk(parseInt(req.params.id)).then(function(kid) {
+        res.render('kids/edit', {kid});
+    });
+});
 //GET /kids/:id - returns the selected kid
 router.get('/:id', function(req, res){
     db.kid.findOne({
@@ -46,6 +51,25 @@ router.get('/:id', function(req, res){
         var bDayString = `${bDay.getMonth()}/${bDay.getDate()}/${bDay.getFullYear()}`
             res.render('kids/show', {kid, bDayString});
         });
+});
+//DELETE
+router.delete('/:id', function(req,res) {
+    db.kid.destroy({
+        where: {id: parseInt(req.params.id)}
+    }).then(function(data) {
+        res.redirect('/kids');
+    });
+})
+//PUT 
+router.put('/:id', function(req, res) {
+    db.kid.update({
+        name:req.body.kidName,
+        birthdate: req.body.kidBirthdate,
+    }, {
+        where: {id: parseInt(req.params.id)}
+    }).then(function(kid) {
+        res.redirect('/kids/' + req.params.id)
+    });
 });
 
 

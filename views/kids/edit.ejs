@@ -1,0 +1,13 @@
+<h2>Update your child's info</h2>
+
+<form method="POST" action="/kids/<%= kid.id %>/?_method=PUT">
+  <label for="kidName">Name</label>
+  <input type="text" name="kidName" value="<%= kid.name %>"/>
+  <input type="date" name="kidBirthdate" placeholder="Please enter your child's birthdate..">
+
+
+  <input type="submit" value="UPDATE CHILD">
+</form>
+
+
+ 
