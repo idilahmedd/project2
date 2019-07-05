@@ -1,27 +1,31 @@
-# Express Authentication
+# Project 2
 
-Express authentication template using Passport + flash messages + custom middleware
+KidConnect is an app that is created for parents and guardians of children with Developmental Delays and/or Autism. It's a place where users can keep track of events such as doctor appointments or playdates and keep notes on appointments with doctors and thearpists. Users are able to have one place to go to keep track of all things related to the progress of their child.
 
 ## Getting Started
 
-#### Scaffold w/tests (see `master` branch)
+## Creating the wireframe
 
-* Run `npm install` to install dependencies
-  * Use `npm run lint:js` to lint your JS
-  * Use `npm run lint:css` to lint your CSS
-  * Use `npm test` to run tests
-* Setup the databases
-  * Change the database names in `config/config.json` to reflect your project
-  * Run `createdb project_name_development` to create the development database
-  * Run `createdb project_name_test` to create the test database
 
-#### Finished version (see `brian-finished` branch)
 
-* Run `npm install` to install dependencies
-  * Use `npm run lint:js` to lint your JS
-  * Use `npm run lint:css` to lint your CSS
-  * Use `npm test` to run tests
-* Setup the databases
-  * Run `createdb express_auth_development` to create the development database
-  * Run `createdb express_auth_test` to create the test database
-  * Run `sequelize db:migrate` to run migrations
+## Searching for the Api
+
+
+
+## Setting up the app 
+
+
+
+## Adding the Api and Mapbox
+
+
+
+## Styling
+
+
+
+
+## Conclusion
+
+
+#### Moving Forward
