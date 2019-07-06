@@ -39,7 +39,7 @@ router.get('/login', function(req, res) {
   res.render('auth/login');
 });
 
-//
+//login
 router.post('/login', passport.authenticate('local', {
   successRedirect: '/profile',
   failureRedirect: '/auth/login',
@@ -47,7 +47,7 @@ router.post('/login', passport.authenticate('local', {
   failureFlash: 'Invalid username and/or password!'
 }))
 
-//
+//logout
 router.get('/logout', function(req, res) {
   req.logout();
   console.log('logged out');

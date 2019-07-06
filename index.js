@@ -16,7 +16,11 @@ const app = express();
 const methodOverride = require('method-override');
 //this line makes the session use sequelize to write session data to a postgres table
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
-
+//geocoding setup
+const mapbox = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mapbox({
+    accessToken: process.env.MAPBOX_PUBLIC_KEY
+});
 const sessionStore = new SequelizeStore({
   db: db.sequelize,
   expiration: 1000 * 60 * 30
@@ -28,6 +32,7 @@ app.use(require('morgan')('dev'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.static(__dirname + "/public"));
 app.use(ejsLayouts);
+app.set('layout extractScripts', true);
 app.use(helmet());
 app.use(methodOverride('_method'));
 
@@ -42,6 +47,7 @@ app.use(session({
 //after the session has been created you need to do this once
 //use this line once to set up the store table
 sessionStore.sync();
+
 
 // starts the flash middleware
 app.use(flash());

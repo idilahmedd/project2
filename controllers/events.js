@@ -1,7 +1,14 @@
+require('dotenv').config();
 const express = require('express');
 const db = require('../models');
 const router = express.Router();
 const axios = require('axios');
+
+//geocoding setup
+const mapbox = require('@mapbox/mapbox-sdk/services/geocoding');
+const geocodingClient = mapbox({
+    accessToken: process.env.MAPBOX_PUBLIC_KEY
+});
 
 
 //GET /event- returns user's events
@@ -14,24 +21,18 @@ router.get('/', function(req, res) {
 
 //POST /events - receives form data for a new event
 router.get('/results', function(req, res) {
-    // Get fields for searching from req.body
-    // Build the URL with those search terms
-    // var multiple = false;
     var searchTerms = '';
     if (req.query.location) {
 
         searchTerms = searchTerms + "location=" + req.query.location;
         // multiple = true;
     }
-    // res.send(searchTerms);
     if (req.query.name) {
         searchTerms = searchTerms + '&name=' + req.query.name;
     }
     if (req.query.specialty) {
         searchTerms = searchTerms + '&specialty_uid=' + req.query.specialty;
     }
-    // Use that URL in th axios call
-    // TODO maybe user_key instead of apikey
     var url = `https://api.betterdoctor.com/2016-03-01/doctors?${searchTerms}&skip=0&limit=10&user_key=${process.env.API_KEY}`;
     console.log(url);
     db.kid.findAll().then(function(kids){
@@ -52,16 +53,25 @@ router.get('/results', function(req, res) {
         });
     })
 });
-
+//GET /search- take out parameters and hit mapbox geocoding
+router.get('/search', function(req,res) {
+    let location = req.query.city + ", " + req.query.state;
+    // use geocoder to query the location with parks appended to the query
+    //then take response from mapbox render 'show' with the data
+    geocodingClient.forwardGeocode({
+        query: "park " + location
+    }).send().then(function(response){
+        let results = response.body.features.map(function(feature) {
+            return feature.center
+        })
+        res.render('events/playmap', {results});
+    })
+});
 //GET /events/new- sends a form to add new event
 router.get('/new', function(req, res,) {
-    // db.event.findAll()
-    //     .then(function(events) {
         db.kid.findAll().then(function(kids){
             res.render('events/new',{kids});
         })
-            
-        //});
 });
 
 //GET/ events/:id/EDIT - serve up our EDIT event form
@@ -92,21 +102,21 @@ router.post('/', function(req,res){
         time: req.body.time,
         with: req.body.with,
         reason: req.body.reason,
-        kidId: req.body.kidId,
+        kidId: parseInt(req.body.kidId)
     }).then(function(event){
         res.redirect('/events');
     });
     
 });
 
-
+//POST- /notes -should this shit be here?
 router.post('/:id/notes', function(req,res) {
     db.event.findByPk(parseInt(req.params.id))
     .then(function(event) {
         event.createNote({
             time:req.body.time,
             content: req.body.content,
-            eventId: req.body.eventId
+            eventId: parseInt(req.body.eventId)
         }).then(function(note) {
             res.redirect('/events/' + req.params.id);
         })
@@ -123,7 +133,7 @@ router.delete('/:id', function(req,res) {
         res.redirect('/events');
     });
 })
-//PUT 
+//PUT - update form
 router.put('/:id', function(req, res) {
     db.event.update({
         type:req.body.eventType,
@@ -131,7 +141,7 @@ router.put('/:id', function(req, res) {
         time: req.body.eventTime,
         with: req.body.eventWith,
         reason: req.body.eventReason,
-        kidId: req.body.eventKidId
+        kidId: parseInt(req.body.eventKidId)
     }, {
         where: {id: parseInt(req.params.id)}
     }).then(function(event) {
