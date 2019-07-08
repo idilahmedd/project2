@@ -73,7 +73,18 @@ router.get('/new', function(req, res,) {
             res.render('events/new',{kids});
         })
 });
-
+//GET / events/searchdoc - get form to search for doctor
+router.get('/searchdoc', function(req, res,) {
+    db.event.findAll().then(function(events){
+        res.render('events/searchdoc',{events});
+    })
+});
+//GET / events/searchplay - get form to search for playdate
+router.get('/searchplay', function(req, res,) {
+    db.event.findAll().then(function(events){
+        res.render('events/searchplay',{events});
+    })
+});
 //GET/ events/:id/EDIT - serve up our EDIT event form
 router.get('/:id/edit', function(req, res){
     db.event.findByPk(parseInt(req.params.id)).then(function(event) {
@@ -104,7 +115,12 @@ router.post('/', function(req,res){
         reason: req.body.reason,
         kidId: parseInt(req.body.kidId)
     }).then(function(event){
-        res.redirect('/events');
+        //if type is doctor redirect to doctor page or else
+        if (event.type === 'doctor'){
+            res.redirect('/events/searchdoc')
+        } else {
+            res.redirect('/events/searchplay')
+        }
     });
     
 });

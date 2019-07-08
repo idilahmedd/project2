@@ -26,6 +26,12 @@ module.exports = {
       kidId: {
         type: Sequelize.INTEGER
       },
+      docId: {
+        type: Sequelize.STRING
+      },
+      playId: {
+        type: Sequelize.INTEGER
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
