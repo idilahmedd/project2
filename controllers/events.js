@@ -113,7 +113,8 @@ router.post('/', function(req,res){
         time: req.body.time,
         with: req.body.with,
         reason: req.body.reason,
-        kidId: parseInt(req.body.kidId)
+        kidId: parseInt(req.body.kidId),
+        docId: req.body.docId
     }).then(function(event){
         //if type is doctor redirect to doctor page or else
         if (event.type === 'doctor'){

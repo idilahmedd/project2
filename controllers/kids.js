@@ -48,7 +48,7 @@ router.get('/:id', function(req, res){
         include: [db.event]
     }).then(function(kid){
         var bDay = new Date(kid.birthdate);
-        var bDayString = `${bDay.getMonth()}/${bDay.getDate()}/${bDay.getFullYear()}`
+        var bDayString = `${bDay.getMonth()+ 1}/${bDay.getDate()+1}/${bDay.getFullYear()}`
             res.render('kids/show', {kid, bDayString});
         });
 });

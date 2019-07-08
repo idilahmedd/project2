@@ -10,7 +10,8 @@
       <%=specialty.uid%>
     <%})%>
     <br>
-    <form method="POST" action="/events/<%= events.id%>">
+    <form method="POST" action="/events/<%= event.id%>">
+      <input type="hidden" name= "docId" value="<%= event.uid %>">
       <input type="Submit" value="Choose this Dr.">
       </form>
 <% }) %>
