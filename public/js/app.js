@@ -15,7 +15,14 @@ const geoJson = {
         let marker = {
             "type": "Feature",
             "properties": {
-                "iconSize": [60,60]
+				"message": "Here I am",
+				"icon": {
+                    "iconSize": [50, 50], // size of the icon
+                    "iconAnchor": [25, 25], // point of the icon which will correspond to marker's location
+                    "popupAnchor": [0, -25], // point from which the popup should open relative to the iconAnchor
+                    "className": 'dot'
+                }
+            
             },
             "geometry": {
                 "type": "Point",
@@ -25,12 +32,23 @@ const geoJson = {
         return marker
     })
 }
+geoJson.features.forEach(function (marker) {
+	//create a DOM element for the marker
+	var el = document.createElement('div');
+	el.className = 'marker';
+    el.style.backgroundImage = 'url(../img/icons8-record-48.png)';
+	el.style.width = marker.properties.iconSize[1] + 'px';
+	el.style.height = marker.properties.iconSize[1] + 'px';
 
-geoJson.features.forEach(function(feature) {
-    new mapboxgl.Marker({anchor: 'center'})
-    .setLngLat(feature.geometry.coordinates)
-    .addTo(map)
-})
+	el.addEventListener('click', function () {
+		document.getElementById('message').textContent = marker.properties.message
+	});
+	// add marker to map
+	new mapboxgl.Marker({element: el, anchor: 'center'})
+		.setLngLat(marker.geometry.coordinates)
+		.addTo(map);
+
+});
 
 map.on('load', function () {
 	console.log("I'M TRYING TO RUN THE MAP SCRIPT!!!")

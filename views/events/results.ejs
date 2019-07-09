@@ -2,6 +2,7 @@
   <div class="drList">
       <h3><%= event.practices[0].name %></h3>
       <p><%= event.practices[0].visit_address.street %></p>
+      <p><%= event.practices[0].visit_address.street2 %></p>
       <p><%= event.practices[0].visit_address.city %></p>
       <p><%= event.practices[0].visit_address.state %></p>
       <p><%= event.practices[0].visit_address.zip %></p>
@@ -13,7 +14,7 @@
     <form method="POST" action="/events/<%= eventId %>">
       <input type="hidden" name="doc" value="<%= event.uid %>">
       <input type="hidden" name="docId" value="<%= event.practices[0].name %>">
-      <input type="hidden" name="location" value="<%= event.practices[0].visit_address.street%>, <%= event.practices[0].visit_address.city %>, <%= event.practices[0].visit_address.state %>, <%= event.practices[0].visit_address.zip %>">
+      <input type="hidden" name="location" value="<%= event.practices[0].visit_address.street%>, <%= event.practices[0].visit_address.street2 %>, <%= event.practices[0].visit_address.city %>, <%= event.practices[0].visit_address.state %>, <%= event.practices[0].visit_address.zip %>">
       
       <input type="Submit" value="Choose this Dr.">
       </form>
