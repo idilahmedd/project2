@@ -67,6 +67,8 @@ router.get('/search', function(req,res) {
         res.render('events/playmap', {results});
     })
 });
+
+
 //GET /events/new- sends a form to add new event
 router.get('/new', function(req, res,) {
     console.log('❤️ this is the events/new route')

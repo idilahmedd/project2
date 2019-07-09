@@ -33,15 +33,18 @@ const geoJson = {
     })
 }
 geoJson.features.forEach(function (marker) {
+	console.log(marker.properties)
 	//create a DOM element for the marker
 	var el = document.createElement('div');
 	el.className = 'marker';
     el.style.backgroundImage = 'url(../img/icons8-record-48.png)';
-	el.style.width = marker.properties.iconSize[1] + 'px';
-	el.style.height = marker.properties.iconSize[1] + 'px';
+	el.style.width = marker.properties.icon.iconSize[1] + 'px';
+	el.style.height = marker.properties.icon.iconSize[1] + 'px';
 
 	el.addEventListener('click', function () {
-		document.getElementById('message').textContent = marker.properties.message
+		let handle = document.getElementById('message')
+		console.log({handle, msg: marker.properties.message})
+		handle.textContent = marker.properties.message
 	});
 	// add marker to map
 	new mapboxgl.Marker({element: el, anchor: 'center'})
