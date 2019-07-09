@@ -71,9 +71,9 @@ app.get('/profile', isLoggedIn, function(req, res) {
   res.render('profile');
 });
 
+app.use('/events', require('./controllers/events'));
 app.use('/auth', require('./controllers/auth'));
 app.use('/kids', require('./controllers/kids'));
-app.use('/events', require('./controllers/events'));
 app.use('/notes', require('./controllers/notes'));
 
 

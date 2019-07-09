@@ -33,6 +33,7 @@ geoJson.features.forEach(function(feature) {
 })
 
 map.on('load', function () {
+	console.log("I'M TRYING TO RUN THE MAP SCRIPT!!!")
 	let layers = map.getStyle().layers;
 	let labelLayerId;
 	for (let i = 0; i < layers.length; i++) {
@@ -77,3 +78,4 @@ map.on('load', function () {
 
 
 
+console.log("Static script file finished running!!!!!!");

@@ -8,23 +8,23 @@
 
 
 <form action="/events/results" method="GET">
-
-<input type="text" name="name" placeholder="Enter Dr. name here"> 
-<select name="location" required>
-  <option value=" ">   </option>
-  <option value="wa-seattle"> Seattle, WA </option>
-  <option value="wa-renton"> Renton, WA</option>
-  <option value="wa-tacoma"> Tacoma, WA</option>
-  <option value="wa-redmond">Redmond, WA </option>
-</select>
-<select name="specialty">
-  <option value=" ">   </option>
-  <option value="speech-therapist"> Speech Therapist </option>
-  <option value="occupational-therapist"> Occupational Therapist</option>
-  <option value="pediatrician"> Pediatrician</option>
-  <option value="nutritionist">Nutritionist </option> 
-  </select>
-<input type="submit">
+    <input type="text" name="name" placeholder="Enter Dr. name here"> 
+    <select name="location" required>
+    <option value=" ">   </option>
+    <option value="wa-seattle"> Seattle, WA </option>
+    <option value="wa-renton"> Renton, WA</option>
+    <option value="wa-tacoma"> Tacoma, WA</option>
+    <option value="wa-redmond">Redmond, WA </option>
+    </select>
+    <select name="specialty">
+    <option value=" ">   </option>
+    <option value="speech-therapist"> Speech Therapist </option>
+    <option value="occupational-therapist"> Occupational Therapist</option>
+    <option value="pediatrician"> Pediatrician</option>
+    <option value="nutritionist">Nutritionist </option> 
+    </select>
+    <input type="hidden" name="eventId" value="<%= eventId %>">
+    <input type="submit">
 </form>
 
 

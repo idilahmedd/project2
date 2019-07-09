@@ -1,3 +1,11 @@
 /* nav * {
     border: black solid 1px;
 } */
+
+.well {
+    background-color: rgb(76, 48, 199);
+}
+#map {
+    height: 700px;
+    width: 1000px;
+}

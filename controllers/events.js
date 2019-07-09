@@ -46,7 +46,7 @@ router.get('/results', function(req, res) {
             // res.json(practices.data)
             console.log();
             
-            res.render('events/results', {events: practices.data, kids});
+            res.render('events/results', {events: practices.data, kids, eventId: req.query.eventId});
 
         }).catch(function(err) {
           res.json(err)
@@ -69,9 +69,17 @@ router.get('/search', function(req,res) {
 });
 //GET /events/new- sends a form to add new event
 router.get('/new', function(req, res,) {
-        db.kid.findAll().then(function(kids){
-            res.render('events/new',{kids});
-        })
+    console.log('❤️ this is the events/new route')
+    db.kid.findAll({
+        where: {
+            userId: req.user.id
+        }
+    }).then(function(kids){
+        // res.send(kids);
+        console.log("THIS IS THE KID DATA:", kids);
+        console.log("Name:", kids[0].name);
+        res.render('events/new', {kids});
+    })
 });
 //GET / events/searchdoc - get form to search for doctor
 router.get('/searchdoc', function(req, res,) {
@@ -95,7 +103,7 @@ router.get('/:id/edit', function(req, res){
 router.get('/:id', function(req,res) {
     db.event.findOne({
         where: {id: parseInt(req.params.id)}, //where the db id - the modle id
-        include: [db.kid, db.note] //goes out and grabs as many kids and notes and attaches them
+        include: [db.kid] //goes out and grabs as many kids and notes and attaches them
     }).then(function(event) {
         // db.comment.findOne({
         //     where: {postId: parseInt(req.params.id)}, //where the db id - the modle id 
@@ -105,8 +113,22 @@ router.get('/:id', function(req,res) {
         });
 });
 
+//POST events/:id - get event_uid and update with docId in db
+router.post('/:id', function(req,res){
+    console.log("post events/:id")
+    db.event.update({
+        docId: req.body.docId,
+        location: req.body.location
+    }, {
+        where: {id: parseInt(req.params.id)}
+    }).then(function(){
+        res.redirect('/events');
+    });
+});
+
 //POST /events - create a new event
 router.post('/', function(req,res){
+    console.log("post events/")
     db.event.create({
         type: req.body.type,
         location: req.body.location,
@@ -118,27 +140,27 @@ router.post('/', function(req,res){
     }).then(function(event){
         //if type is doctor redirect to doctor page or else
         if (event.type === 'doctor'){
-            res.redirect('/events/searchdoc')
+            res.render('events/searchdoc', {eventId: event.id});
         } else {
-            res.redirect('/events/searchplay')
+            res.render('events/searchplay')
         }
     });
     
 });
 
 //POST- /notes -should this shit be here?
-router.post('/:id/notes', function(req,res) {
-    db.event.findByPk(parseInt(req.params.id))
-    .then(function(event) {
-        event.createNote({
-            time:req.body.time,
-            content: req.body.content,
-            eventId: parseInt(req.body.eventId)
-        }).then(function(note) {
-            res.redirect('/events/' + req.params.id);
-        })
-    })
-});
+// router.post('/:id/notes', function(req,res) {
+//     db.event.findByPk(parseInt(req.params.id))
+//     .then(function(event) {
+//         event.createNote({
+//             time:req.body.time,
+//             content: req.body.content,
+//             eventId: parseInt(req.body.eventId)
+//         }).then(function(note) {
+//             res.redirect('/events/' + req.params.id);
+//         })
+//     })
+// });
 
 
 
@@ -156,7 +178,7 @@ router.put('/:id', function(req, res) {
         type:req.body.eventType,
         location: req.body.eventLocation,
         time: req.body.eventTime,
-        with: req.body.eventWith,
+        with: req.body.eventDocName,
         reason: req.body.eventReason,
         kidId: parseInt(req.body.eventKidId)
     }, {

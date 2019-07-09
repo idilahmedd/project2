@@ -8,14 +8,15 @@
   <input type="text" name="eventLocation" value="<%= event.location %>"/>
 
 <label for="eventTime">Time</label>
-  <input type="text" name="eventTime" value="<%= event.time %>"/>
+  <input type="time" name="eventTime" value="<%= event.time %>"/>
 
-<label for="eventWith">With</label>
-  <input type="text" name="eventWith" value="<%= event.with %>"/>
+<label for="eventDocName">With</label>
+  <input type="text" name="eventDocName" value="<%= event.docId %>"/>
 
 <label for="eventReason">Reason</label>
   <input type="text" name="eventReason" value="<%= event.reason %>"/>
 
+<input hidden type="text" name="eventKidId" value="<%= event.kidId %>"/>
 
   <input type="submit" value="UPDATE MY EVENT">
 </form>
